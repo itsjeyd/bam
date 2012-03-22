@@ -43,16 +43,18 @@ if __name__ == '__main__':
         print 'BAM! %s can now be run via %s.' % (command, alias)
 
     elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-        # TODO: Add error handling here (bam list fails if commands.db is empty)
-        l = max(map(lambda x: len(x), [c[0] for c in COMMAND_STORE['aliases'].values()])) + 2
-        template = "{0:<4}{1:%d}{2}" % l
-        print template.format('ID', "COMMAND", "ALIAS")
-        for id, entry in enumerate(COMMAND_STORE['aliases'].items()):
-            command = entry[1][0]
-            alias = entry[0]
-            item = (id, command, alias)
-            print template.format(*item)
-        print
+        try:
+            l = max(map(lambda x: len(x), [c[0] for c in COMMAND_STORE['aliases'].values()])) + 2
+            template = "{0:<4}{1:%d}{2}" % l
+            print template.format('ID', "COMMAND", "ALIAS")
+            for id, entry in enumerate(COMMAND_STORE['aliases'].items()):
+                command = entry[1][0]
+                alias = entry[0]
+                item = (id, command, alias)
+                print template.format(*item)
+            print
+        except ValueError:
+            print 'You don\'t have any commands yet.'
 
     elif sys.argv[1] == 'del':
         confirmation = raw_input('Really Papi? ')
