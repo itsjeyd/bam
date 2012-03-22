@@ -6,6 +6,18 @@ import subprocess
 import sys
 
 
+#####################################################################
+# ID  COMMAND                          ALIAS                        #
+# 0   git push origin master           push it real good            #
+# 1   cp -R * [0]                      copy all files to [0]        #
+# 2   ls [0] | grep [1]                show me all [1] files in [0] #
+# 3   rm *~                            get rid of temp files        #
+# 4   du -sh /var/cache/apt/archives/  how big is apt cache         #
+# 5   chmod +x [0]                     make [0] executable          #
+# 6   bam list                         show me my aliases           #
+#####################################################################
+
+
 if __name__ == '__main__':
     COMMAND_STORE = shelve.open('/home/tim/commands.db', writeback=True)
     if not COMMAND_STORE.has_key('aliases'):
