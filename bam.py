@@ -19,11 +19,14 @@ import sys
 
 
 if __name__ == '__main__':
-    COMMAND_STORE = shelve.open('/home/tim/commands.db', writeback=True)
-    if not COMMAND_STORE.has_key('aliases'):
-        COMMAND_STORE['aliases'] = dict()
+    COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
 
-    if sys.argv[1] == 'new':
+    if sys.argv[1] == 'create':
+        if not COMMAND_STORE.has_key('aliases'):
+            COMMAND_STORE['aliases'] = dict()
+            print 'BAM! Initialized database commands.db.'
+
+    elif sys.argv[1] == 'new':
         command = raw_input('Enter command: ')
         if command not in COMMAND_STORE['aliases'].values():
             print 'BAM! This is a brand new command.'
