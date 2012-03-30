@@ -73,25 +73,6 @@ class Bam:
 
     @classmethod
     def run(cls):
-        pass
-
-
-if __name__ == '__main__':
-    COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
-
-    if sys.argv[1] == 'setup':
-        Bam.setup()
-
-    elif sys.argv[1] == 'new':
-        Bam.new()
-
-    elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-        Bam.show()
-
-    elif sys.argv[1] == 'del':
-        Bam.delete()
-
-    else:
         # TODO Wildcard handling
         input = sys.argv[1:]
         for alias, entry in COMMAND_STORE['aliases'].items():
@@ -114,3 +95,22 @@ if __name__ == '__main__':
                     print command
                 except KeyError:
                     print 'You don\'t have any commands associated with this alias'
+
+
+if __name__ == '__main__':
+    COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
+
+    if sys.argv[1] == 'setup':
+        Bam.setup()
+
+    elif sys.argv[1] == 'new':
+        Bam.new()
+
+    elif sys.argv[1] == 'list' and len(sys.argv) == 2:
+        Bam.show()
+
+    elif sys.argv[1] == 'del':
+        Bam.delete()
+
+    else:
+        Bam.run()
