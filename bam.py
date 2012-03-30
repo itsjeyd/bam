@@ -6,6 +6,16 @@ import subprocess
 import sys
 
 
+def handle_input(args):
+    """ Entry point """
+    if len(sys.argv) == 1:
+        pass
+    elif len(sys.argv) == 2:
+        pass
+    else:
+        pass
+
+
 class Bam:
 
     @classmethod
