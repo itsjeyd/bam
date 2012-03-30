@@ -25,11 +25,15 @@ class Bam:
 
     @classmethod
     def setup(cls):
-        if not COMMAND_STORE.has_key('aliases'):
+        if not os.path.exists('db-path'):
+            with open('db-path', 'w') as pathfile:
+                db_path = os.path.join(os.getcwd(), 'commands.db')
+                pathfile.write(db_path)
+            COMMAND_STORE = shelve.open(db_path, writeback=True)
             COMMAND_STORE['aliases'] = dict()
-            print 'BAM! Initialized database commands.db.'
+            print 'BAM! Done configuring. Time to add some aliases!'
         else:
-            print 'BAM! Can\'t do that. Database already exists.'
+            print 'BAM! No need to do that. Everything is already configured.'
 
     @classmethod
     def new(cls):
