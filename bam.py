@@ -113,26 +113,20 @@ class Bam:
 
 
 if __name__ == '__main__':
-    try:
-        COMMAND_STORE = shelve.open(read_db_path(), writeback=True)
-
-        if sys.argv[1] == 'setup':
-            Bam.setup()
-
-        elif sys.argv[1] == 'new':
-            Bam.new()
-
-        elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-            Bam.show()
-
-        elif sys.argv[1] == 'del':
-            Bam.delete()
-
-        elif sys.argv[1] == 'destroy':
-            Bam.destroy()
-
-        else:
-            Bam.run()
-
-    except IOError:
-        print 'BAM! Can\'t find config file. Please run setup first.'
+    if sys.argv[1] == 'setup':
+       Bam.setup()
+    else:
+        try:
+            COMMAND_STORE = shelve.open(read_db_path(), writeback=True)
+            if sys.argv[1] == 'new':
+                Bam.new()
+            elif sys.argv[1] == 'list' and len(sys.argv) == 2:
+                Bam.show()
+            elif sys.argv[1] == 'del':
+                Bam.delete()
+            elif sys.argv[1] == 'destroy':
+                Bam.destroy()
+            else:
+                Bam.run()
+        except IOError:
+            print 'BAM! Can\'t access database. Please run setup first.'
