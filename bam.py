@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import re
 import shelve
 import subprocess
@@ -72,6 +73,12 @@ class Bam:
                 print 'I don\'t know what you\'re talking about.'
 
     @classmethod
+    def destroy(cls):
+        COMMAND_STORE.close()
+        os.remove('/home/tim/bam/commands.db')
+        print 'BAM! Destroyed commands.db.'
+
+    @classmethod
     def run(cls):
         # TODO Wildcard handling
         input = sys.argv[1:]
@@ -111,6 +118,9 @@ if __name__ == '__main__':
 
     elif sys.argv[1] == 'del':
         Bam.delete()
+
+    elif sys.argv[1] == 'destroy':
+        Bam.destroy()
 
     else:
         Bam.run()
