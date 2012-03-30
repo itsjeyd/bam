@@ -6,6 +6,29 @@ import subprocess
 import sys
 
 
+class Bam:
+
+    @classmethod
+    def setup(cls):
+        pass
+
+    @classmethod
+    def new(cls):
+        pass
+
+    @classmethod
+    def show(cls):
+        pass
+
+    @classmethod
+    def delete(cls):
+        pass
+
+    @classmethod
+    def run(cls):
+        pass
+
+
 if __name__ == '__main__':
     COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
 
