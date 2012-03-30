@@ -8,8 +8,8 @@ import sys
 
 
 def read_db_path():
-    with open('config') as CONFIG:
-        return CONFIG.readlines()[0]
+    with open('db-path') as pathfile:
+        return pathfile.next()
 
 def handle_input(args):
     """ Entry point """
