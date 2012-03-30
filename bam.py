@@ -20,7 +20,11 @@ class Bam:
 
     @classmethod
     def setup(cls):
-        pass
+        if not COMMAND_STORE.has_key('aliases'):
+            COMMAND_STORE['aliases'] = dict()
+            print 'BAM! Initialized database commands.db.'
+        else:
+            print 'BAM! Can\'t do that. Database already exists.'
 
     @classmethod
     def new(cls):
@@ -42,10 +46,8 @@ class Bam:
 if __name__ == '__main__':
     COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
 
-        if not COMMAND_STORE.has_key('aliases'):
-            COMMAND_STORE['aliases'] = dict()
-            print 'BAM! Initialized database commands.db.'
     if sys.argv[1] == 'setup':
+        Bam.setup()
 
     elif sys.argv[1] == 'new':
         command = raw_input('Enter command: ')
