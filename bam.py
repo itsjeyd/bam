@@ -84,8 +84,9 @@ class Bam:
     @classmethod
     def destroy(cls):
         COMMAND_STORE.close()
-        os.remove('/home/tim/bam/commands.db')
-        print 'BAM! Destroyed commands.db.'
+        os.remove(os.path.join(read_path(), 'commands.db'))
+        os.remove(os.path.join(read_path(), 'path'))
+        print 'BAM! Nuked your database and config.'
 
     @classmethod
     def run(cls):
