@@ -1,0 +1,13 @@
+#+OPTIONS: f:nil
+* Examples
+#+BEGIN_EXAMPLE
+ID  COMMAND                          ALIAS
+0   git push origin master           push it real good
+1   cp -R * [0]                      copy all files to [0]
+2   ls [0] | grep [1]                show me all [1] files in [0]
+3   rm *~                            get rid of temp files
+4   du -sh /var/cache/apt/archives/  how big is apt cache
+5   chmod +x [0]                     make [0] executable
+6   bam list                         show me my aliases
+7   grep -lr [0] ./*                 list files containing [0]
+#+END_EXAMPLE
