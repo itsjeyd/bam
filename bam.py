@@ -76,6 +76,8 @@ if __name__ == '__main__':
             print
         except ValueError:
             print 'You don\'t have any commands yet.'
+        except KeyError:
+            print 'You need to initialize your database.'
 
     elif sys.argv[1] == 'del':
         confirmation = raw_input('Really Papi? ')
