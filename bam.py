@@ -42,10 +42,10 @@ class Bam:
 if __name__ == '__main__':
     COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
 
-    if sys.argv[1] == 'create':
         if not COMMAND_STORE.has_key('aliases'):
             COMMAND_STORE['aliases'] = dict()
             print 'BAM! Initialized database commands.db.'
+    if sys.argv[1] == 'setup':
 
     elif sys.argv[1] == 'new':
         command = raw_input('Enter command: ')
