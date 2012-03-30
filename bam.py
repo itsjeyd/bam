@@ -28,7 +28,20 @@ class Bam:
 
     @classmethod
     def new(cls):
-        pass
+        command = raw_input('Enter command: ')
+        if command not in COMMAND_STORE['aliases'].values():
+            print 'BAM! This is a brand new command.'
+        arguments = dict()
+
+        alias = raw_input('Enter alias: ')
+        if '[' or ']' in alias:
+            words = re.sub('[\[\]]', '', alias).split()
+            for i in words:
+                if re.match('\d+', i):
+                    arguments[i] = words.index(i)
+
+        COMMAND_STORE['aliases'][alias] = (command, arguments)
+        print 'BAM! %s can now be run via %s.' % (command, alias)
 
     @classmethod
     def show(cls):
@@ -50,20 +63,7 @@ if __name__ == '__main__':
         Bam.setup()
 
     elif sys.argv[1] == 'new':
-        command = raw_input('Enter command: ')
-        if command not in COMMAND_STORE['aliases'].values():
-            print 'BAM! This is a brand new command.'
-        arguments = dict()
-
-        alias = raw_input('Enter alias: ')
-        if '[' or ']' in alias:
-            words = re.sub('[\[\]]', '', alias).split()
-            for i in words:
-                if re.match('\d+', i):
-                    arguments[i] = words.index(i)
-
-        COMMAND_STORE['aliases'][alias] = (command, arguments)
-        print 'BAM! %s can now be run via %s.' % (command, alias)
+        Bam.new()
 
     elif sys.argv[1] == 'list' and len(sys.argv) == 2:
         try:
