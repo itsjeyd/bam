@@ -62,7 +62,14 @@ class Bam:
 
     @classmethod
     def delete(cls):
-        pass
+        confirmation = raw_input('Really Papi? ')
+        if confirmation == 'really':
+            alias = ' '.join(sys.argv[2:])
+            try:
+                del COMMAND_STORE['aliases'][alias]
+                print '%s is an ex-alias' % alias
+            except KeyError:
+                print 'I don\'t know what you\'re talking about.'
 
     @classmethod
     def run(cls):
@@ -82,14 +89,7 @@ if __name__ == '__main__':
         Bam.show()
 
     elif sys.argv[1] == 'del':
-        confirmation = raw_input('Really Papi? ')
-        if confirmation == 'really':
-            alias = ' '.join(sys.argv[2:])
-            try:
-                del COMMAND_STORE['aliases'][alias]
-                print '%s is an ex-alias' % alias
-            except KeyError:
-                print 'I don\'t know what you\'re talking about.'
+        Bam.delete()
 
     else:
         # TODO Wildcard handling
