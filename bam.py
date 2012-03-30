@@ -7,8 +7,8 @@ import subprocess
 import sys
 
 
-def read_db_path():
-    with open('db-path') as pathfile:
+def read_path():
+    with open('path') as pathfile:
         return pathfile.next()
 
 def handle_input(args):
@@ -25,11 +25,12 @@ class Bam:
 
     @classmethod
     def setup(cls):
-        if not os.path.exists('db-path'):
-            with open('db-path', 'w') as pathfile:
-                db_path = os.path.join(os.getcwd(), 'commands.db')
-                pathfile.write(db_path)
-            COMMAND_STORE = shelve.open(db_path, writeback=True)
+        if not os.path.exists('path'):
+            with open('path', 'w') as pathfile:
+                pathfile.write(os.getcwd())
+            COMMAND_STORE = shelve.open(
+                os.path.join(os.getcwd(), 'commands.db'), writeback=True
+                )
             COMMAND_STORE['aliases'] = dict()
             print 'BAM! Done configuring. Time to add some aliases!'
         else:
@@ -117,7 +118,9 @@ if __name__ == '__main__':
        Bam.setup()
     else:
         try:
-            COMMAND_STORE = shelve.open(read_db_path(), writeback=True)
+            COMMAND_STORE = shelve.open(
+                os.path.join(read_path(), 'commands.db'), writeback=True
+                )
             if sys.argv[1] == 'new':
                 Bam.new()
             elif sys.argv[1] == 'list' and len(sys.argv) == 2:
