@@ -7,6 +7,10 @@ import subprocess
 import sys
 
 
+def read_db_path():
+    with open('config') as CONFIG:
+        return CONFIG.readlines()[0]
+
 def handle_input(args):
     """ Entry point """
     if len(sys.argv) == 1:
@@ -105,7 +109,7 @@ class Bam:
 
 
 if __name__ == '__main__':
-    COMMAND_STORE = shelve.open('/home/tim/bam/commands.db', writeback=True)
+    COMMAND_STORE = shelve.open(read_db_path(), writeback=True)
 
     if sys.argv[1] == 'setup':
         Bam.setup()
