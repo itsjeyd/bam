@@ -45,7 +45,20 @@ class Bam:
 
     @classmethod
     def show(cls):
-        pass
+        try:
+            l = max(map(lambda x: len(x), [c[0] for c in COMMAND_STORE['aliases'].values()])) + 2
+            template = "{0:<4}{1:%d}{2}" % l
+            print template.format('ID', "COMMAND", "ALIAS")
+            for id, entry in enumerate(COMMAND_STORE['aliases'].items()):
+                command = entry[1][0]
+                alias = entry[0]
+                item = (id, command, alias)
+                print template.format(*item)
+            print
+        except ValueError:
+            print 'You don\'t have any commands yet.'
+        except KeyError:
+            print 'You need to initialize your database.'
 
     @classmethod
     def delete(cls):
@@ -66,20 +79,7 @@ if __name__ == '__main__':
         Bam.new()
 
     elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-        try:
-            l = max(map(lambda x: len(x), [c[0] for c in COMMAND_STORE['aliases'].values()])) + 2
-            template = "{0:<4}{1:%d}{2}" % l
-            print template.format('ID', "COMMAND", "ALIAS")
-            for id, entry in enumerate(COMMAND_STORE['aliases'].items()):
-                command = entry[1][0]
-                alias = entry[0]
-                item = (id, command, alias)
-                print template.format(*item)
-            print
-        except ValueError:
-            print 'You don\'t have any commands yet.'
-        except KeyError:
-            print 'You need to initialize your database.'
+        Bam.show()
 
     elif sys.argv[1] == 'del':
         confirmation = raw_input('Really Papi? ')
