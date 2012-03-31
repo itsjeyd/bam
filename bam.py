@@ -118,7 +118,8 @@ class Bam:
                     subprocess.call(command, shell=True)
                     print command
                 except KeyError:
-                    print 'You don\'t have any commands associated with this alias'
+                    print 'You don\'t have any commands ' \
+                          'associated with this alias.'
 
 
 if __name__ == '__main__':
