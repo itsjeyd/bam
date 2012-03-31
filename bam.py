@@ -83,7 +83,7 @@ class Bam:
                 del COMMAND_STORE['aliases'][alias]
                 print 'BAM! %s is an ex-alias.' % alias
             except KeyError:
-                print 'I don\'t know what you\'re talking about.'
+                print 'BAM! Can\'t do that: Alias doesn\'t exist.'
 
     @classmethod
     def destroy(cls):
