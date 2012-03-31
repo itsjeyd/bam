@@ -81,7 +81,7 @@ class Bam:
             alias = ' '.join(sys.argv[2:])
             try:
                 del COMMAND_STORE['aliases'][alias]
-                print '%s is an ex-alias' % alias
+                print 'BAM! %s is an ex-alias.' % alias
             except KeyError:
                 print 'I don\'t know what you\'re talking about.'
 
