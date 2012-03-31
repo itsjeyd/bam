@@ -59,11 +59,9 @@ class Bam:
         if not os.path.exists('path'):
             with open('path', 'w') as pathfile:
                 pathfile.write(os.getcwd())
-            COMMAND_STORE = shelve.open(
-                os.path.join(os.getcwd(), 'commands.db'), writeback=True
-                )
-            COMMAND_STORE['aliases'] = dict()
-            COMMAND_STORE.close()
+            cls.access_db()
+            cls.COMMAND_STORE['aliases'] = dict()
+            cls.close_db()
             print 'BAM! Done configuring. Time to add some aliases!'
         else:
             print 'BAM! No need to do that. Everything is already configured.'
