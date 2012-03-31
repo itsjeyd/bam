@@ -47,9 +47,9 @@ class Bam:
         alias = raw_input('Enter alias: ')
         if '[' or ']' in alias:
             words = re.sub('[\[\]]', '', alias).split()
-            for i in words:
-                if re.match('\d+', i):
-                    arguments[i] = words.index(i)
+            for word in words:
+                if re.match('\d+', word):
+                    arguments[word] = words.index(word)
 
         COMMAND_STORE['aliases'][alias] = (command, arguments)
         print 'BAM! %s can now be run via %s.' % (command, alias)
