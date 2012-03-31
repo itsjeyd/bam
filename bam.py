@@ -16,6 +16,7 @@ def handle_input(args):
        Bam.setup()
     else:
         try:
+            Bam.access_db()
             if sys.argv[1] == 'new':
                 Bam.new()
             elif sys.argv[1] == 'list' and len(sys.argv) == 2:
@@ -26,6 +27,7 @@ def handle_input(args):
                 Bam.destroy()
             else:
                 Bam.run()
+            Bam.close_db()
         except IOError:
             print 'BAM! Can\'t access database. Please run setup first.'
 
@@ -39,6 +41,18 @@ def handle_input(args):
 
 
 class Bam:
+
+    COMMAND_STORE = None
+
+    @classmethod
+    def access_db(cls):
+        cls.COMMAND_STORE = shelve.open(
+            os.path.join(read_path(), 'commands.db'), writeback=True
+            )
+
+    @classmethod
+    def close_db(cls):
+        cls.COMMAND_STORE.close()
 
     @classmethod
     def setup(cls):
