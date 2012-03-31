@@ -84,6 +84,9 @@ class Bam:
                 print 'BAM! %s is an ex-alias.' % alias
             except KeyError:
                 print 'BAM! Can\'t do that: Alias doesn\'t exist.'
+        else:
+            print 'Deleting an alias is serious business!\n' \
+                  'I won\'t do it unless you\'re absolutely sure.'
 
     @classmethod
     def destroy(cls):
