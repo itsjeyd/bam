@@ -101,7 +101,7 @@ class Bam:
                 print template.format(*item)
             print
         except ValueError:
-            print 'You don\'t have any commands yet.'
+            print 'BAM! You don\'t have any commands yet.'
         except KeyError:
             print 'You need to initialize your database.'
 
