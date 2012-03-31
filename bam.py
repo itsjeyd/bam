@@ -12,13 +12,30 @@ def read_path():
         return pathfile.next()
 
 def handle_input(args):
-    """ Entry point """
-    if len(sys.argv) == 1:
-        pass
-    elif len(sys.argv) == 2:
-        pass
+    if sys.argv[1] == 'setup':
+       Bam.setup()
     else:
-        pass
+        try:
+            if sys.argv[1] == 'new':
+                Bam.new()
+            elif sys.argv[1] == 'list' and len(sys.argv) == 2:
+                Bam.show()
+            elif sys.argv[1] == 'del':
+                Bam.delete()
+            elif sys.argv[1] == 'destroy':
+                Bam.destroy()
+            else:
+                Bam.run()
+        except IOError:
+            print 'BAM! Can\'t access database. Please run setup first.'
+
+    """ Entry point """
+    # if len(sys.argv) == 1:
+    #     pass
+    # elif len(sys.argv) == 2:
+    #     pass
+    # else:
+    #     pass
 
 
 class Bam:
@@ -123,22 +140,4 @@ class Bam:
 
 
 if __name__ == '__main__':
-    if sys.argv[1] == 'setup':
-       Bam.setup()
-    else:
-        try:
-            COMMAND_STORE = shelve.open(
-                os.path.join(read_path(), 'commands.db'), writeback=True
-                )
-            if sys.argv[1] == 'new':
-                Bam.new()
-            elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-                Bam.show()
-            elif sys.argv[1] == 'del':
-                Bam.delete()
-            elif sys.argv[1] == 'destroy':
-                Bam.destroy()
-            else:
-                Bam.run()
-        except IOError:
-            print 'BAM! Can\'t access database. Please run setup first.'
+    handle_input(sys.argv)
