@@ -32,6 +32,7 @@ class Bam:
                 os.path.join(os.getcwd(), 'commands.db'), writeback=True
                 )
             COMMAND_STORE['aliases'] = dict()
+            COMMAND_STORE.close()
             print 'BAM! Done configuring. Time to add some aliases!'
         else:
             print 'BAM! No need to do that. Everything is already configured.'
