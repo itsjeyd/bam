@@ -12,6 +12,7 @@ def read_path():
         return pathfile.next()
 
 def handle_input(args):
+    """ Entry point """
     if sys.argv[1] == 'setup':
        Bam.setup()
     else:
@@ -31,7 +32,6 @@ def handle_input(args):
         except IOError:
             print 'BAM! Can\'t access database. Please run setup first.'
 
-    """ Entry point """
     # if len(sys.argv) == 1:
     #     pass
     # elif len(sys.argv) == 2:
