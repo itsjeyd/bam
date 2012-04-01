@@ -55,9 +55,7 @@ class Bam:
 
     @classmethod
     def setup(cls):
-        if not os.path.exists('path'):
-            with open('path', 'w') as pathfile:
-                pathfile.write(os.getcwd())
+        if not os.path.exists(os.path.join(find_home(), 'commands.db')):
             cls.access_db()
             cls.COMMAND_STORE['aliases'] = dict()
             cls.close_db()
@@ -120,8 +118,7 @@ class Bam:
     def destroy(cls):
         cls.close_db()
         os.remove(os.path.join(find_home(), 'commands.db'))
-        os.remove(os.path.join(find_home(), 'path'))
-        print 'BAM! Nuked your database and config.'
+        print 'BAM! Nuked your database.'
 
     @classmethod
     def run(cls):
