@@ -12,24 +12,23 @@ def find_home():
 
 def handle_input(args):
     """ Entry point """
-    if sys.argv[1] == 'setup':
-       Bam.setup()
-    else:
-        try:
-            Bam.access_db()
-            if sys.argv[1] == 'new':
-                Bam.new()
-            elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-                Bam.show()
-            elif sys.argv[1] == 'del':
-                Bam.delete()
-            elif sys.argv[1] == 'destroy':
-                Bam.destroy()
-            else:
-                Bam.run()
-            Bam.close_db()
-        except IOError:
-            print 'BAM! Can\'t access database. Please run setup first.'
+    try:
+        Bam.access_db()
+        if sys.argv[1] == 'setup':
+            Bam.setup()
+        elif sys.argv[1] == 'new':
+            Bam.new()
+        elif sys.argv[1] == 'list' and len(sys.argv) == 2:
+            Bam.show()
+        elif sys.argv[1] == 'del':
+            Bam.delete()
+        elif sys.argv[1] == 'destroy':
+            Bam.destroy()
+        else:
+            Bam.run()
+        Bam.close_db()
+    except IOError:
+        print 'BAM! Can\'t access database. Please run setup first.'
 
     # if len(sys.argv) == 1:
     #     pass
@@ -55,10 +54,8 @@ class Bam:
 
     @classmethod
     def setup(cls):
-        if not os.path.exists(os.path.join(find_home(), 'commands.db')):
-            cls.access_db()
+        if not cls.COMMAND_STORE.has_key('aliases'):
             cls.COMMAND_STORE['aliases'] = dict()
-            cls.close_db()
             print 'BAM! Done configuring. Time to add some aliases!'
         else:
             print 'BAM! No need to do that. Everything is already configured.'
