@@ -7,9 +7,8 @@ import subprocess
 import sys
 
 
-def read_path():
-    with open('path') as pathfile:
-        return pathfile.next()
+def find_home():
+    return os.path.dirname(os.path.realpath(__file__))
 
 def handle_input(args):
     """ Entry point """
@@ -47,7 +46,7 @@ class Bam:
     @classmethod
     def access_db(cls):
         cls.COMMAND_STORE = shelve.open(
-            os.path.join(read_path(), 'commands.db'), writeback=True
+            os.path.join(find_home(), 'commands.db'), writeback=True
             )
 
     @classmethod
@@ -69,7 +68,7 @@ class Bam:
     @classmethod
     def new(cls):
         command = raw_input('Enter command: ')
-        if command not in cls.COMMAND_STORE['aliases'].values():
+        if command not in cls.COMMAND_STORE['aliases'].values(): #
             print 'BAM! This is a brand new command.'
         arguments = dict()
 
@@ -120,8 +119,8 @@ class Bam:
     @classmethod
     def destroy(cls):
         cls.close_db()
-        os.remove(os.path.join(read_path(), 'commands.db'))
-        os.remove(os.path.join(read_path(), 'path'))
+        os.remove(os.path.join(find_home(), 'commands.db'))
+        os.remove(os.path.join(find_home(), 'path'))
         print 'BAM! Nuked your database and config.'
 
     @classmethod
