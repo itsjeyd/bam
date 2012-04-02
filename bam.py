@@ -31,6 +31,51 @@ def handle_input(args):
     #     pass
 
 
+class Alias(object):
+    """
+    """
+
+    def __init__(self, string):
+        self._string = string
+        self._tokens = string.split()
+
+    def __repr__(self):
+        return self._string
+
+    @property
+    def arg_positions(self):
+        args = dict()
+        if '[' or ']' in self._string:
+            words = re.sub('[\[\]]', '', self._string).split()
+            for word in words:
+                if re.match('\d+', word):
+                    args[word] = words.index(word)
+        return args
+
+    @property
+    def normalized(self):
+        return ' '.join(
+            token for token in self._tokens if not
+            self._tokens.index(token) in self.arg_positions.values()
+            )
+
+
+class Command(Alias):
+    """
+    """
+
+    def execute(self, input, arg_positions):
+        subprocess.call(
+            self.__replace_wildcards(input, arg_positions), shell=True
+            )
+
+    def __replace_wildcards(self, input, arg_positions):
+        full_command = self._tokens
+        for arg, pos in arg_positions.items():
+            full_command[self.arg_positions[arg]] = input.split()[pos]
+        return ' '.join(full_command)
+
+
 class CommandStore(object):
     """
     """
