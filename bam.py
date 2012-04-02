@@ -104,20 +104,20 @@ class Bam:
     @classmethod
     @db_access
     def show(cls):
-        try:
-            col_width = max(map(
-                lambda command: len(command), cls.COMMAND_STORE.get_commands()
-                )) + 2
-            template = "{0:<4}{1:%d}{2}" % col_width
-            print template.format('ID', "COMMAND", "ALIAS")
-            for id, entry in enumerate(cls.COMMAND_STORE.get_entries()):
-                command = entry[1][0]
-                alias = entry[0]
-                item = (id, command, alias)
-                print template.format(*item)
-            print
-        except ValueError:
+        if cls.COMMAND_STORE.is_empty():
             print 'BAM! You don\'t have any commands yet.'
+            return
+        col_width = max(map(
+            lambda command: len(command), cls.COMMAND_STORE.get_commands()
+            )) + 2
+        template = "{0:<4}{1:%d}{2}" % col_width
+        print template.format('ID', "COMMAND", "ALIAS")
+        for id, entry in enumerate(cls.COMMAND_STORE.get_entries()):
+            command = entry[1][0]
+            alias = entry[0]
+            item = (id, command, alias)
+            print template.format(*item)
+        print
 
     @classmethod
     @db_access
