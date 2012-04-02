@@ -31,7 +31,7 @@ def handle_input(args):
     #     pass
 
 
-class Alias(object):
+class Alias(str):
     """
     """
 
