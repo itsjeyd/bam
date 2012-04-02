@@ -89,6 +89,10 @@ class Command(Alias):
         return ' '.join(full_command)
 
 
+class DatabaseAlreadyInitializedError(StandardError):
+    pass
+
+
 class CommandStore(object):
     """
     """
@@ -97,6 +101,8 @@ class CommandStore(object):
     def init(self):
         if not self.database.has_key('aliases'):
             self.database['aliases'] = dict()
+        else:
+            raise DatabaseAlreadyInitializedError
 
     def access(self):
         self.database = shelve.open(
@@ -147,7 +153,11 @@ class Bam:
     @classmethod
     @db_access
     def setup(cls):
-        cls.COMMAND_STORE.init()
+        try:
+            cls.COMMAND_STORE.init()
+            print 'BAM! Initialized your database.'
+        except DatabaseAlreadyInitializedError:
+            print 'BAM! No need to do that. Everything is already configured.'
 
     @classmethod
     @db_access
