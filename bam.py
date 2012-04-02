@@ -204,19 +204,12 @@ class Bam:
     def run(cls):
         input = sys.argv[1:]
         for alias, command in cls.COMMAND_STORE.get_entries():
-            norm_input = cls.__remove_arg_positions(
-                input, alias.arg_positions.values()
-                )
-            if alias.normalized == norm_input:
+            if alias.normalized == Input.normalized(
+                input, alias.arg_positions
+                ):
                 command.execute(input, alias.arg_positions)
                 return
         print 'BAM! Unknown alias.'
-
-    @classmethod
-    def __remove_arg_positions(cls, input, arg_positions):
-        return ' '.join(
-            word for word in input if not input.index(word) in arg_positions
-            )
 
 
 if __name__ == '__main__':
