@@ -133,7 +133,10 @@ class Bam:
     def db_access(func):
         def wrapper(cls, *args, **kwargs):
             cls.COMMAND_STORE.access()
-            func(cls, *args, **kwargs)
+            try:
+                func(cls, *args, **kwargs)
+            except KeyError:
+                print 'BAM! Please run setup first.'
             cls.COMMAND_STORE.close()
         return wrapper
 
