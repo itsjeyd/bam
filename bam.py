@@ -86,7 +86,7 @@ class Bam:
                     arguments[word] = words.index(word)
 
         cls.COMMAND_STORE.add_alias(alias, command, arguments)
-        print 'BAM! %s can now be run via %s.' % (command, alias)
+        print 'BAM! "%s" can now be run via "%s".' % (command, alias)
 
     @classmethod
     @db_access
@@ -114,7 +114,7 @@ class Bam:
             alias = ' '.join(sys.argv[2:])
             try:
                 cls.COMMAND_STORE.rm_alias(alias)
-                print 'BAM! %s is an ex-alias.' % alias
+                print 'BAM! "%s" is an ex-alias.' % alias
             except KeyError:
                 print 'BAM! Can\'t do that: Alias doesn\'t exist.'
         else:
