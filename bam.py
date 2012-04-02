@@ -44,6 +44,9 @@ class CommandStore(object):
     def close(self):
         self.database.close()
 
+    def is_empty(self):
+        return True if not self.database.items() else False
+
     def get_aliases(self):
         return self.database.keys()
 
