@@ -147,27 +147,28 @@ class Bam:
     def run(cls):
         # TODO Wildcard handling
         input = sys.argv[1:]
-        no_alias_found = True
         for alias, entry in cls.COMMAND_STORE.get_entries():
-            norm_alias = ' '.join(
-                word for word in alias.split() if not
-                ('[' in word or ']' in word)
+            arg_positions = entry[1].values()
+            norm_alias = cls.__remove_arg_positions(
+                alias.split(), arg_positions
                 )
-            args = entry[1].values()
-            norm_input = ' '.join(
-                word for word in input if not input.index(word) in args
-                )
+            norm_input = cls.__remove_arg_positions(input, arg_positions)
             if norm_alias == norm_input:
-                no_alias_found = False
                 command = entry[0].split()
-                for key, value in entry[1].items():
-                    pos = entry[0].split().index('[%s]' % key)
-                    command[pos] = input[entry[1][key]]
+                for arg, inputpos in entry[1].items():
+                    pos = command.index('[%s]' % arg)
+                    command[pos] = input[inputpos]
                 command = ' '.join(command)
+                print 'Running "%s" ...' % command
                 subprocess.call(command, shell=True)
-                print command
-        if no_alias_found:
-            print 'BAM! Unknown alias.'
+                return
+        print 'BAM! Unknown alias.'
+
+    @classmethod
+    def __remove_arg_positions(cls, words, arg_positions):
+        return ' '.join(
+            word for word in words if not words.index(word) in arg_positions
+            )
 
 
 if __name__ == '__main__':
