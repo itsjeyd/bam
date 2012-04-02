@@ -44,6 +44,9 @@ class CommandStore(object):
     def close(self):
         self.database.close()
 
+    def get_aliases(self):
+        return self.database.keys()
+
     def get_commands(self):
         return [x[0] for x in self.database.values()]
 
@@ -81,6 +84,9 @@ class Bam:
         else:
             print 'BAM! Adding new alias to existing command...'
         alias = cls.__prompt_user_for('alias')
+        if alias in cls.COMMAND_STORE.get_aliases():
+            print 'BAM! Can\'t do this. Alias exists.'
+            return
         arguments = cls.__extract_args(alias)
         cls.COMMAND_STORE.add_alias(alias, command, arguments)
         print 'BAM! "%s" can now be run via "%s".' % (command, alias)
