@@ -199,8 +199,12 @@ class Bam:
 
     @classmethod
     def destroy(cls):
-        os.remove(os.path.join(find_home(), 'commands.db'))
-        print 'BAM! Nuked your database.'
+        db_path = os.path.join(find_home(), 'commands.db')
+        if os.path.exists(db_path):
+            os.remove(db_path)
+            print 'BAM! Nuked your database.'
+        else:
+            print 'BAM! Can\'t do that. Database does not exist.'
 
     @classmethod
     @db_access
