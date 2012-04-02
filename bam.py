@@ -80,15 +80,20 @@ class Bam:
             print 'BAM! This is a brand new command.'
         else:
             print 'BAM! Adding new alias to existing command...'
-        arguments = dict()
         alias = cls.__prompt_user_for('alias')
+        arguments = cls.__extract_args(alias)
+        cls.COMMAND_STORE.add_alias(alias, command, arguments)
+        print 'BAM! "%s" can now be run via "%s".' % (command, alias)
+
+    @classmethod
+    def __extract_args(cls, alias):
+        args = dict()
         if '[' or ']' in alias:
             words = re.sub('[\[\]]', '', alias).split()
             for word in words:
                 if re.match('\d+', word):
-                    arguments[word] = words.index(word)
-        cls.COMMAND_STORE.add_alias(alias, command, arguments)
-        print 'BAM! "%s" can now be run via "%s".' % (command, alias)
+                    args[word] = words.index(word)
+        return args
 
     @classmethod
     @db_access
