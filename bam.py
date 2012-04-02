@@ -144,6 +144,7 @@ class Bam:
     def run(cls):
         # TODO Wildcard handling
         input = sys.argv[1:]
+        no_alias_found = True
         for alias, entry in cls.COMMAND_STORE.get_entries():
             norm_alias = ' '.join(
                 word for word in alias.split() if not
@@ -154,6 +155,7 @@ class Bam:
                 word for word in input if not input.index(word) in args
                 )
             if norm_alias == norm_input:
+                no_alias_found = False
                 command = entry[0].split()
                 for key, value in entry[1].items():
                     pos = entry[0].split().index('[%s]' % key)
@@ -161,6 +163,8 @@ class Bam:
                 command = ' '.join(command)
                 subprocess.call(command, shell=True)
                 print command
+        if no_alias_found:
+            print 'BAM! Unknown alias.'
 
 
 if __name__ == '__main__':
