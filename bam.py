@@ -74,6 +74,8 @@ class Bam:
         command = raw_input('Enter command: ')
         if command not in cls.COMMAND_STORE.get_commands():
             print 'BAM! This is a brand new command.'
+        else:
+            print 'BAM! Adding new alias to existing command...'
         arguments = dict()
 
         alias = raw_input('Enter alias: ')
