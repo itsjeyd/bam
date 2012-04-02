@@ -38,32 +38,48 @@ def handle_input(args):
     #     pass
 
 
+class CommandStore(object):
+    """
+    """
+    database = None
+
+    def access(self):
+        self.database = shelve.open(
+            os.path.join(find_home(), 'commands.db'), writeback=True
+            )
+
+    def close(self):
+        self.database.close()
+
+    def get_commands(self):
+        return [x[0] for x in self.database.values()]
+
+    def get_entries(self):
+        return self.database.items()
+
+    def add_alias(self, alias, command, arguments):
+        self.database[alias] = (command, arguments)
+
+    def rm_alias(self, alias):
+        del self.database[alias]
+
+
 class Bam:
 
-    COMMAND_STORE = None
+    COMMAND_STORE = CommandStore()
 
     @classmethod
     def access_db(cls):
-        cls.COMMAND_STORE = shelve.open(
-            os.path.join(find_home(), 'commands.db'), writeback=True
-            )
+        cls.COMMAND_STORE.access()
 
     @classmethod
     def close_db(cls):
         cls.COMMAND_STORE.close()
 
     @classmethod
-    def setup(cls):
-        if not cls.COMMAND_STORE.has_key('aliases'):
-            cls.COMMAND_STORE['aliases'] = dict()
-            print 'BAM! Done configuring. Time to add some aliases!'
-        else:
-            print 'BAM! No need to do that. Everything is already configured.'
-
-    @classmethod
     def new(cls):
         command = raw_input('Enter command: ')
-        if command not in cls.COMMAND_STORE['aliases'].values(): #
+        if command not in cls.COMMAND_STORE.get_commands():
             print 'BAM! This is a brand new command.'
         arguments = dict()
 
@@ -74,19 +90,18 @@ class Bam:
                 if re.match('\d+', word):
                     arguments[word] = words.index(word)
 
-        cls.COMMAND_STORE['aliases'][alias] = (command, arguments)
+        cls.COMMAND_STORE.add_alias(alias, command, arguments)
         print 'BAM! %s can now be run via %s.' % (command, alias)
 
     @classmethod
     def show(cls):
         try:
             col_width = max(map(
-                lambda x: len(x),
-                [c[0] for c in cls.COMMAND_STORE['aliases'].values()]
+                lambda command: len(command), cls.COMMAND_STORE.get_commands()
                 )) + 2
             template = "{0:<4}{1:%d}{2}" % col_width
             print template.format('ID', "COMMAND", "ALIAS")
-            for id, entry in enumerate(cls.COMMAND_STORE['aliases'].items()):
+            for id, entry in enumerate(cls.COMMAND_STORE.get_entries()):
                 command = entry[1][0]
                 alias = entry[0]
                 item = (id, command, alias)
@@ -94,8 +109,6 @@ class Bam:
             print
         except ValueError:
             print 'BAM! You don\'t have any commands yet.'
-        except KeyError:
-            print 'You need to initialize your database.'
 
     @classmethod
     def delete(cls):
@@ -103,7 +116,7 @@ class Bam:
         if confirmation == 'really':
             alias = ' '.join(sys.argv[2:])
             try:
-                del cls.COMMAND_STORE['aliases'][alias]
+                cls.COMMAND_STORE.rm_alias(alias)
                 print 'BAM! %s is an ex-alias.' % alias
             except KeyError:
                 print 'BAM! Can\'t do that: Alias doesn\'t exist.'
@@ -121,7 +134,7 @@ class Bam:
     def run(cls):
         # TODO Wildcard handling
         input = sys.argv[1:]
-        for alias, entry in cls.COMMAND_STORE['aliases'].items():
+        for alias, entry in cls.COMMAND_STORE.get_entries():
             norm_alias = ' '.join(
                 word for word in alias.split() if not
                 ('[' in word or ']' in word)
