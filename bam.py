@@ -147,19 +147,8 @@ class Bam:
         if alias in cls.COMMAND_STORE.get_aliases():
             print 'BAM! Can\'t do this. Alias exists.'
             return
-        arguments = cls.__extract_args(alias)
-        cls.COMMAND_STORE.add_alias(alias, command, arguments)
+        cls.COMMAND_STORE.add_alias(alias, command)
         print 'BAM! "%s" can now be run via "%s".' % (command, alias)
-
-    @classmethod
-    def __extract_args(cls, alias):
-        args = dict()
-        if '[' or ']' in alias:
-            words = re.sub('[\[\]]', '', alias).split()
-            for word in words:
-                if re.match('\d+', word):
-                    args[word] = words.index(word)
-        return args
 
     @classmethod
     @db_access
@@ -173,7 +162,7 @@ class Bam:
         template = "{0:<4}{1:%d}{2}" % col_width
         print template.format('ID', "COMMAND", "ALIAS")
         for id, entry in enumerate(cls.COMMAND_STORE.get_entries()):
-            command = entry[1][0]
+            command = entry[1]
             alias = entry[0]
             item = (id, command, alias)
             print template.format(*item)
@@ -202,29 +191,20 @@ class Bam:
     @classmethod
     @db_access
     def run(cls):
-        # TODO Wildcard handling
         input = sys.argv[1:]
-        for alias, entry in cls.COMMAND_STORE.get_entries():
-            arg_positions = entry[1].values()
-            norm_alias = cls.__remove_arg_positions(
-                alias.split(), arg_positions
+        for alias, command in cls.COMMAND_STORE.get_entries():
+            norm_input = cls.__remove_arg_positions(
+                input, alias.arg_positions.values()
                 )
-            norm_input = cls.__remove_arg_positions(input, arg_positions)
-            if norm_alias == norm_input:
-                command = entry[0].split()
-                for arg, inputpos in entry[1].items():
-                    pos = command.index('[%s]' % arg)
-                    command[pos] = input[inputpos]
-                command = ' '.join(command)
-                print 'Running "%s" ...' % command
-                subprocess.call(command, shell=True)
+            if alias.normalized == norm_input:
+                command.execute(input, alias.arg_positions)
                 return
         print 'BAM! Unknown alias.'
 
     @classmethod
-    def __remove_arg_positions(cls, words, arg_positions):
+    def __remove_arg_positions(cls, input, arg_positions):
         return ' '.join(
-            word for word in words if not words.index(word) in arg_positions
+            word for word in input if not input.index(word) in arg_positions
             )
 
 
