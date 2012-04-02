@@ -12,7 +12,9 @@ def find_home():
 
 def handle_input(args):
     """ Entry point """
-    if sys.argv[1] == 'new':
+    if sys.argv[1] == 'setup':
+        Bam.setup()
+    elif sys.argv[1] == 'new':
         Bam.new()
     elif sys.argv[1] == 'list' and len(sys.argv) == 2:
         Bam.show()
@@ -81,6 +83,10 @@ class CommandStore(object):
     """
     database = None
 
+    def init(self):
+        if not self.database.has_key('aliases'):
+            self.database['aliases'] = dict()
+
     def access(self):
         self.database = shelve.open(
             os.path.join(find_home(), 'commands.db'), writeback=True
@@ -90,22 +96,23 @@ class CommandStore(object):
         self.database.close()
 
     def is_empty(self):
-        return True if not self.database.items() else False
+        return True if not self.database['aliases'].items() else False
 
     def get_aliases(self):
-        return self.database.keys()
+        return [str(alias) for alias in self.database['aliases'].keys()]
 
     def get_commands(self):
-        return [x[0] for x in self.database.values()]
+        return [str(command) for command in self.database['aliases'].values()]
 
     def get_entries(self):
-        return self.database.items()
+        return self.database['aliases'].items()
 
-    def add_alias(self, alias, command, arguments):
-        self.database[alias] = (command, arguments)
+    def add_alias(self, alias, command):
+        self.database['aliases'][Alias(alias)] = Command(command)
 
     def rm_alias(self, alias):
-        del self.database[alias]
+        l = filter(lambda x: str(x) == alias, self.get_aliases())
+        del self.database['aliases'][l[0]]
 
 
 class Bam:
@@ -122,6 +129,11 @@ class Bam:
     @classmethod
     def __prompt_user_for(cls, string):
         return raw_input('Enter %s: ' % string)
+
+    @classmethod
+    @db_access
+    def setup(cls):
+        cls.COMMAND_STORE.init()
 
     @classmethod
     @db_access
