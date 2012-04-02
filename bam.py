@@ -12,7 +12,6 @@ def find_home():
 
 def handle_input(args):
     """ Entry point """
-    Bam.access_db()
     if sys.argv[1] == 'new':
         Bam.new()
     elif sys.argv[1] == 'list' and len(sys.argv) == 2:
@@ -23,7 +22,6 @@ def handle_input(args):
         Bam.destroy()
     else:
         Bam.run()
-    Bam.close_db()
 
     # if len(sys.argv) == 1:
     #     pass
@@ -63,15 +61,15 @@ class Bam:
 
     COMMAND_STORE = CommandStore()
 
-    @classmethod
-    def access_db(cls):
-        cls.COMMAND_STORE.access()
+    def db_access(func):
+        def wrapper(cls, *args, **kwargs):
+            cls.COMMAND_STORE.access()
+            func(cls, *args, **kwargs)
+            cls.COMMAND_STORE.close()
+        return wrapper
 
     @classmethod
-    def close_db(cls):
-        cls.COMMAND_STORE.close()
-
-    @classmethod
+    @db_access
     def new(cls):
         command = raw_input('Enter command: ')
         if command not in cls.COMMAND_STORE.get_commands():
@@ -89,6 +87,7 @@ class Bam:
         print 'BAM! %s can now be run via %s.' % (command, alias)
 
     @classmethod
+    @db_access
     def show(cls):
         try:
             col_width = max(map(
@@ -106,6 +105,7 @@ class Bam:
             print 'BAM! You don\'t have any commands yet.'
 
     @classmethod
+    @db_access
     def delete(cls):
         confirmation = raw_input('Really Papi? ')
         if confirmation == 'really':
@@ -121,11 +121,11 @@ class Bam:
 
     @classmethod
     def destroy(cls):
-        cls.close_db()
         os.remove(os.path.join(find_home(), 'commands.db'))
         print 'BAM! Nuked your database.'
 
     @classmethod
+    @db_access
     def run(cls):
         # TODO Wildcard handling
         input = sys.argv[1:]
