@@ -144,12 +144,8 @@ class Bam:
                     pos = entry[0].split().index('[%s]' % key)
                     command[pos] = input[entry[1][key]]
                 command = ' '.join(command)
-                try:
-                    subprocess.call(command, shell=True)
-                    print command
-                except KeyError:
-                    print 'You don\'t have any commands ' \
-                          'associated with this alias.'
+                subprocess.call(command, shell=True)
+                print command
 
 
 if __name__ == '__main__':
