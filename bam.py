@@ -122,17 +122,17 @@ class Bam:
     @classmethod
     @db_access
     def delete(cls):
-        confirmation = raw_input('Really Papi? ')
-        if confirmation == 'really':
-            alias = ' '.join(sys.argv[2:])
-            try:
-                cls.COMMAND_STORE.rm_alias(alias)
-                print 'BAM! "%s" is an ex-alias.' % alias
-            except KeyError:
-                print 'BAM! Can\'t do that: Alias doesn\'t exist.'
+        alias = ' '.join(sys.argv[2:])
+        if alias not in cls.COMMAND_STORE.get_aliases():
+            print 'BAM! Can\'t do that: Alias doesn\'t exist.'
+            return
+        print 'Srsly?'
+        confirmation = cls.__prompt_user_for('y/n')
+        if confirmation == 'y':
+            cls.COMMAND_STORE.rm_alias(alias)
+            print 'BAM! "%s" is an ex-alias.' % alias
         else:
-            print 'Deleting an alias is serious business!\n' \
-                  'I won\'t do it unless you\'re absolutely sure.'
+            print 'BAM! Aborting.'
 
     @classmethod
     def destroy(cls):
