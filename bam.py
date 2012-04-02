@@ -12,23 +12,18 @@ def find_home():
 
 def handle_input(args):
     """ Entry point """
-    try:
-        Bam.access_db()
-        if sys.argv[1] == 'setup':
-            Bam.setup()
-        elif sys.argv[1] == 'new':
-            Bam.new()
-        elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-            Bam.show()
-        elif sys.argv[1] == 'del':
-            Bam.delete()
-        elif sys.argv[1] == 'destroy':
-            Bam.destroy()
-        else:
-            Bam.run()
-        Bam.close_db()
-    except IOError:
-        print 'BAM! Can\'t access database. Please run setup first.'
+    Bam.access_db()
+    if sys.argv[1] == 'new':
+        Bam.new()
+    elif sys.argv[1] == 'list' and len(sys.argv) == 2:
+        Bam.show()
+    elif sys.argv[1] == 'del':
+        Bam.delete()
+    elif sys.argv[1] == 'destroy':
+        Bam.destroy()
+    else:
+        Bam.run()
+    Bam.close_db()
 
     # if len(sys.argv) == 1:
     #     pass
