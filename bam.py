@@ -72,9 +72,11 @@ class Command(Alias):
             )
 
     def __replace_wildcards(self, input, arg_positions):
+        if type(input) == str:
+            input = input.split()
         full_command = self._tokens
         for arg, pos in arg_positions.items():
-            full_command[self.arg_positions[arg]] = input.split()[pos]
+            full_command[self.arg_positions[arg]] = input[pos]
         return ' '.join(full_command)
 
 
