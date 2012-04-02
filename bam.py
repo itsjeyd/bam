@@ -122,7 +122,7 @@ class Bam:
     @classmethod
     @db_access
     def delete(cls):
-        alias = ' '.join(sys.argv[2:])
+        alias = cls.__prompt_user_for('alias')
         if alias not in cls.COMMAND_STORE.get_aliases():
             print 'BAM! Can\'t do that: Alias doesn\'t exist.'
             return
