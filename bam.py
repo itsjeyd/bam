@@ -77,14 +77,12 @@ class Bam:
         else:
             print 'BAM! Adding new alias to existing command...'
         arguments = dict()
-
         alias = raw_input('Enter alias: ')
         if '[' or ']' in alias:
             words = re.sub('[\[\]]', '', alias).split()
             for word in words:
                 if re.match('\d+', word):
                     arguments[word] = words.index(word)
-
         cls.COMMAND_STORE.add_alias(alias, command, arguments)
         print 'BAM! "%s" can now be run via "%s".' % (command, alias)
 
