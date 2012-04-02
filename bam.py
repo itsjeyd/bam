@@ -33,7 +33,19 @@ def handle_input(args):
     #     pass
 
 
-class Alias(str):
+class Input(str):
+    """
+    """
+
+    @staticmethod
+    def normalized(input, arg_positions):
+        return ' '.join(
+            token for token in input if not
+            input.index(token) in arg_positions.values()
+            )
+
+
+class Alias(Input):
     """
     """
 
@@ -56,10 +68,7 @@ class Alias(str):
 
     @property
     def normalized(self):
-        return ' '.join(
-            token for token in self._tokens if not
-            self._tokens.index(token) in self.arg_positions.values()
-            )
+        return super(Alias, self).normalized(self._tokens, self.arg_positions)
 
 
 class Command(Alias):
