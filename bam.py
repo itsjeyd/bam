@@ -69,15 +69,19 @@ class Bam:
         return wrapper
 
     @classmethod
+    def __prompt_user_for(cls, string):
+        return raw_input('Enter %s: ' % string)
+
+    @classmethod
     @db_access
     def new(cls):
-        command = raw_input('Enter command: ')
+        command = cls.__prompt_user_for('command')
         if command not in cls.COMMAND_STORE.get_commands():
             print 'BAM! This is a brand new command.'
         else:
             print 'BAM! Adding new alias to existing command...'
         arguments = dict()
-        alias = raw_input('Enter alias: ')
+        alias = cls.__prompt_user_for('alias')
         if '[' or ']' in alias:
             words = re.sub('[\[\]]', '', alias).split()
             for word in words:
