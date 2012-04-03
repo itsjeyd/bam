@@ -7,6 +7,11 @@ import subprocess
 import sys
 
 
+RESERVED_KEYWORDS = set(
+    ['setup', 'new', 'list', 'del', 'destroy']
+    )
+
+
 def find_home():
     return os.path.dirname(os.path.realpath(__file__))
 
@@ -169,6 +174,7 @@ class Bam:
     @classmethod
     @db_access
     def new(cls):
+        global RESERVED_KEYWORDS
         command = Bam.__prompt_user_for('command')
         if command not in Bam.COMMAND_STORE.get_commands():
             Bam.__respond_with('This is a brand new command.')
@@ -177,6 +183,11 @@ class Bam:
         alias = Bam.__prompt_user_for('alias')
         if alias in Bam.COMMAND_STORE.get_aliases():
             Bam.__respond_with('Can\'t do this. Alias exists.')
+            return
+        elif alias in RESERVED_KEYWORDS:
+            Bam.__respond_with(
+                'Can\'t do this. "%s" is a reserved keyword.' % alias
+                )
             return
         Bam.COMMAND_STORE.add_alias(alias, command)
         Bam.__respond_with(
