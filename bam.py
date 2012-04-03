@@ -145,7 +145,9 @@ class Bam:
             if cls.COMMAND_STORE.initialized() or func.__name__ == 'setup':
                 func(cls, *args, **kwargs)
             else:
-                print 'BAM! Database not initialized. Please run setup first.'
+                cls.__respond_with(
+                    'Database not initialized. Please run setup first.'
+                    )
             cls.COMMAND_STORE.close()
         return wrapper
 
@@ -154,34 +156,42 @@ class Bam:
         return raw_input('Enter %s: ' % string)
 
     @classmethod
+    def __respond_with(cls, string):
+        return ('BAM! %s' % string)
+
+    @classmethod
     @db_access
     def setup(cls):
         try:
             cls.COMMAND_STORE.init()
-            print 'BAM! Initialized your database.'
+            cls.__respond_with('Initialized your database.')
         except DatabaseAlreadyInitializedError:
-            print 'BAM! No need to do that. Everything is already configured.'
+            cls.__respond_with(
+                'No need to do that. Everything is already configured.'
+                )
 
     @classmethod
     @db_access
     def new(cls):
         command = cls.__prompt_user_for('command')
         if command not in cls.COMMAND_STORE.get_commands():
-            print 'BAM! This is a brand new command.'
+            cls.__respond_with('This is a brand new command.')
         else:
-            print 'BAM! Adding new alias to existing command...'
+            cls.__respond_with('Adding new alias to existing command...')
         alias = cls.__prompt_user_for('alias')
         if alias in cls.COMMAND_STORE.get_aliases():
-            print 'BAM! Can\'t do this. Alias exists.'
+            cls.__respond_with('Can\'t do this. Alias exists.')
             return
         cls.COMMAND_STORE.add_alias(alias, command)
-        print 'BAM! "%s" can now be run via "%s".' % (command, alias)
+        cls.__respond_with(
+            '"%s" can now be run via "%s".' % (command, alias)
+            )
 
     @classmethod
     @db_access
     def show(cls):
         if cls.COMMAND_STORE.is_empty():
-            print 'BAM! You don\'t have any commands yet.'
+            cls.__respond_with('You don\'t have any commands yet.')
             return
         col_width = max(map(
             lambda command: len(command), cls.COMMAND_STORE.get_commands()
@@ -200,24 +210,24 @@ class Bam:
     def delete(cls):
         alias = cls.__prompt_user_for('alias')
         if alias not in cls.COMMAND_STORE.get_aliases():
-            print 'BAM! Can\'t do that: Alias doesn\'t exist.'
+            cls.__respond_with('Can\'t do that: Alias doesn\'t exist.')
             return
         print 'Srsly?'
         confirmation = cls.__prompt_user_for('y/n')
         if confirmation == 'y':
             cls.COMMAND_STORE.rm_alias(alias)
-            print 'BAM! "%s" is an ex-alias.' % alias
+            cls.__respond_with('"%s" is an ex-alias.' % alias)
         else:
-            print 'BAM! Aborting.'
+            cls.__respond_with('Aborting.')
 
     @classmethod
     def destroy(cls):
         db_path = os.path.join(find_home(), 'commands.db')
         if os.path.exists(db_path):
             os.remove(db_path)
-            print 'BAM! Nuked your database.'
+            cls.__respond_with('Nuked your database.')
         else:
-            print 'BAM! Can\'t do that. Database does not exist.'
+            cls.__respond_with('Can\'t do that. Database does not exist.')
 
     @classmethod
     @db_access
@@ -229,7 +239,7 @@ class Bam:
                 ):
                 command.execute(input, alias.arg_positions)
                 return
-        print 'BAM! Unknown alias.'
+        cls.__respond_with('Unknown alias.')
 
 
 if __name__ == '__main__':
