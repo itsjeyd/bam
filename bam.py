@@ -33,9 +33,9 @@ def handle_input(args):
         elif args[1] == 'destroy':
             Bam.destroy()
         else:
-            Bam.run()
+            Bam.run(args[1:])
     else:
-        Bam.run()
+        Bam.run(args[1:])
 
 
 class Input(str):
@@ -251,8 +251,7 @@ class Bam:
 
     @classmethod
     @db_access
-    def run(cls):
-        input = sys.argv[1:]
+    def run(cls, input):
         for alias, command in Bam.COMMAND_STORE.get_entries():
             if alias.normalized == Input.normalized(
                 input, alias.arg_positions
