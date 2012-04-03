@@ -25,6 +25,8 @@ def handle_input(args):
             Bam.delete()
         elif sys.argv[1] == 'destroy':
             Bam.destroy()
+        else:
+            Bam.run()
     else:
         Bam.run()
 
