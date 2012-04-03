@@ -12,25 +12,21 @@ def find_home():
 
 def handle_input(args):
     """ Entry point """
-    if sys.argv[1] == 'setup':
-        Bam.setup()
-    elif sys.argv[1] == 'new':
-        Bam.new()
-    elif sys.argv[1] == 'list' and len(sys.argv) == 2:
-        Bam.show()
-    elif sys.argv[1] == 'del':
-        Bam.delete()
-    elif sys.argv[1] == 'destroy':
-        Bam.destroy()
+    if len(sys.argv) == 1:
+        print 'yes?'
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == 'setup':
+            Bam.setup()
+        elif sys.argv[1] == 'new':
+            Bam.new()
+        elif sys.argv[1] == 'list':
+            Bam.show()
+        elif sys.argv[1] == 'del':
+            Bam.delete()
+        elif sys.argv[1] == 'destroy':
+            Bam.destroy()
     else:
         Bam.run()
-
-    # if len(sys.argv) == 1:
-    #     pass
-    # elif len(sys.argv) == 2:
-    #     pass
-    # else:
-    #     pass
 
 
 class Input(str):
