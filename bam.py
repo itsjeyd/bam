@@ -122,10 +122,10 @@ class CommandStore(object):
         return True if not self.database['aliases'].items() else False
 
     def get_aliases(self):
-        return [str(alias) for alias in self.database['aliases'].keys()]
+        return [alias for alias in self.database['aliases'].keys()]
 
     def get_commands(self):
-        return [str(command) for command in self.database['aliases'].values()]
+        return [command for command in self.database['aliases'].values()]
 
     def get_entries(self):
         return self.database['aliases'].items()
@@ -134,7 +134,7 @@ class CommandStore(object):
         self.database['aliases'][Alias(alias)] = Command(command)
 
     def rm_alias(self, alias):
-        l = filter(lambda x: str(x) == alias, self.get_aliases())
+        l = filter(lambda x: x == alias, self.get_aliases())
         del self.database['aliases'][l[0]]
 
 
