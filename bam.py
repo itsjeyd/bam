@@ -157,7 +157,7 @@ class Bam:
 
     @classmethod
     def __respond_with(cls, string):
-        return ('BAM! %s' % string)
+        print ('BAM! %s' % string)
 
     @classmethod
     @db_access
