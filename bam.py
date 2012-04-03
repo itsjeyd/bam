@@ -8,7 +8,7 @@ import sys
 
 
 RESERVED_KEYWORDS = set(
-    ['setup', 'new', 'list', 'del', 'destroy']
+    ['help', 'setup', 'new', 'list', 'del', 'destroy']
     )
 
 
@@ -20,7 +20,9 @@ def handle_input(args):
     if len(sys.argv) == 1:
         print 'yes?'
     elif len(sys.argv) == 2:
-        if sys.argv[1] == 'setup':
+        if sys.argv[1] == 'help':
+            Bam.help()
+        elif sys.argv[1] == 'setup':
             Bam.setup()
         elif sys.argv[1] == 'new':
             Bam.new()
@@ -143,7 +145,9 @@ class Bam:
     def db_access(func):
         def wrapper(cls, *args, **kwargs):
             Bam.COMMAND_STORE.access()
-            if Bam.COMMAND_STORE.initialized() or func.__name__ == 'setup':
+            if (Bam.COMMAND_STORE.initialized() or
+                func.__name__ == 'help' or
+                func.__name__ == 'setup'):
                 func(cls, *args, **kwargs)
             else:
                 Bam.__respond_with(
@@ -159,6 +163,15 @@ class Bam:
     @classmethod
     def __respond_with(cls, string):
         print ('BAM! %s' % string)
+
+    @classmethod
+    def help(cls):
+        print 'Hi! Besides "help", I respond to the following commands:'
+        print '- setup'
+        print '- new'
+        print '- list'
+        print '- del'
+        print '- destroy'
 
     @classmethod
     @db_access
