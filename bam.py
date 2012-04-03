@@ -112,6 +112,9 @@ class CommandStore(object):
     def close(self):
         self.database.close()
 
+    def initialized(self):
+        return self.database.has_key('aliases')
+
     def is_empty(self):
         return True if not self.database['aliases'].items() else False
 
