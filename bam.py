@@ -142,10 +142,10 @@ class Bam:
     def db_access(func):
         def wrapper(cls, *args, **kwargs):
             cls.COMMAND_STORE.access()
-            try:
+            if cls.COMMAND_STORE.initialized() or func.__name__ == 'setup':
                 func(cls, *args, **kwargs)
-            except KeyError:
-                print 'BAM! Please run setup first.'
+            else:
+                print 'BAM! Database not initialized. Please run setup first.'
             cls.COMMAND_STORE.close()
         return wrapper
 
