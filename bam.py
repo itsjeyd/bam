@@ -140,12 +140,12 @@ class CommandStore(object):
 
 class Bam:
 
-    COMMAND_STORE = CommandStore()
+    command_store = CommandStore()
 
     def db_access(func):
         def wrapper(cls, *args, **kwargs):
-            Bam.COMMAND_STORE.access()
-            if (Bam.COMMAND_STORE.initialized() or
+            Bam.command_store.access()
+            if (Bam.command_store.initialized() or
                 func.__name__ == 'help' or
                 func.__name__ == 'setup'):
                 func(cls, *args, **kwargs)
@@ -153,7 +153,7 @@ class Bam:
                 Bam.__respond_with(
                     'Database not initialized. Please run setup first.'
                     )
-            Bam.COMMAND_STORE.close()
+            Bam.command_store.close()
         return wrapper
 
     @classmethod
@@ -177,7 +177,7 @@ class Bam:
     @db_access
     def setup(cls):
         try:
-            Bam.COMMAND_STORE.init()
+            Bam.command_store.init()
             Bam.__respond_with('Initialized your database.')
         except DatabaseAlreadyInitializedError:
             Bam.__respond_with(
@@ -189,12 +189,12 @@ class Bam:
     def new(cls):
         global RESERVED_KEYWORDS
         command = Bam.__prompt_user_for('command')
-        if command not in Bam.COMMAND_STORE.get_commands():
+        if command not in Bam.command_store.get_commands():
             Bam.__respond_with('This is a brand new command.')
         else:
             Bam.__respond_with('Adding new alias to existing command...')
         alias = Bam.__prompt_user_for('alias')
-        if alias in Bam.COMMAND_STORE.get_aliases():
+        if alias in Bam.command_store.get_aliases():
             Bam.__respond_with('Can\'t do this. Alias exists.')
             return
         elif alias in RESERVED_KEYWORDS:
@@ -202,7 +202,7 @@ class Bam:
                 'Can\'t do this. "%s" is a reserved keyword.' % alias
                 )
             return
-        Bam.COMMAND_STORE.add_alias(alias, command)
+        Bam.command_store.add_alias(alias, command)
         Bam.__respond_with(
             '"%s" can now be run via "%s".' % (command, alias)
             )
@@ -210,15 +210,15 @@ class Bam:
     @classmethod
     @db_access
     def show(cls):
-        if Bam.COMMAND_STORE.is_empty():
+        if Bam.command_store.is_empty():
             Bam.__respond_with('You don\'t have any commands yet.')
             return
         col_width = max(map(
-            lambda command: len(command), Bam.COMMAND_STORE.get_commands()
+            lambda command: len(command), Bam.command_store.get_commands()
             )) + 2
         template = "{0:<4}{1:%d}{2}" % col_width
         print template.format('ID', "COMMAND", "ALIAS")
-        for id, entry in enumerate(Bam.COMMAND_STORE.get_entries()):
+        for id, entry in enumerate(Bam.command_store.get_entries()):
             command = entry[1]
             alias = entry[0]
             item = (id, command, alias)
@@ -229,13 +229,13 @@ class Bam:
     @db_access
     def delete(cls):
         alias = Bam.__prompt_user_for('alias')
-        if alias not in Bam.COMMAND_STORE.get_aliases():
+        if alias not in Bam.command_store.get_aliases():
             Bam.__respond_with('Can\'t do that: Alias doesn\'t exist.')
             return
         print 'Srsly?'
         confirmation = Bam.__prompt_user_for('y/n')
         if confirmation == 'y':
-            Bam.COMMAND_STORE.rm_alias(alias)
+            Bam.command_store.rm_alias(alias)
             Bam.__respond_with('"%s" is an ex-alias.' % alias)
         else:
             Bam.__respond_with('Aborting.')
@@ -252,7 +252,7 @@ class Bam:
     @classmethod
     @db_access
     def run(cls, input):
-        for alias, command in Bam.COMMAND_STORE.get_entries():
+        for alias, command in Bam.command_store.get_entries():
             if alias.normalized == Input.normalized(
                 input, alias.arg_positions
                 ):
