@@ -9,7 +9,7 @@ import sys
 
 
 RESERVED_KEYWORDS = set(
-    ['help', 'setup', 'new', 'list', 'del', 'destroy']
+    ['help', 'setup', 'new', 'list', 'delete', 'destroy']
     )
 
 
