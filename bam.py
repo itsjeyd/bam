@@ -274,11 +274,13 @@ class Bam(object):
 class AliasCompleter(object):
     """
     """
+    _options = list(RESERVED_KEYWORDS)
 
     def __init__(self):
         command_store = CommandStore()
         command_store.access()
-        self._options = list(RESERVED_KEYWORDS) + command_store.get_aliases()
+        if command_store.initialized():
+            self._options += command_store.get_aliases()
         command_store.close()
 
     def complete(self, text, state):
