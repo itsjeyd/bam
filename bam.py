@@ -138,7 +138,7 @@ class CommandStore(object):
         del self.database['aliases'][l[0]]
 
 
-class Bam:
+class Bam(object):
 
     command_store = CommandStore()
 
