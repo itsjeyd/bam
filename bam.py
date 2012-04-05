@@ -81,9 +81,9 @@ class Command(Alias):
     """
 
     def execute(self, input, arg_positions):
-        subprocess.call(
-            self.__replace_wildcards(input, arg_positions), shell=True
-            )
+        full_command = self.__replace_wildcards(input, arg_positions)
+        print 'Running "%s" ... \n' % full_command
+        subprocess.call(full_command, shell=True)
 
     def __replace_wildcards(self, input, arg_positions):
         full_command = self._tokens
