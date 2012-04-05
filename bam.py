@@ -166,7 +166,7 @@ class Bam(object):
         print '- setup'
         print '- new'
         print '- list'
-        print '- del'
+        print '- delete'
         print '- destroy'
 
     @classmethod
