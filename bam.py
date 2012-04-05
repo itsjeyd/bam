@@ -25,20 +25,11 @@ def handle_input(args):
         else:
             Bam.run(command.split())
     elif len(args) == 2:
-        if args[1] == 'help':
-            Bam.help()
-        elif args[1] == 'setup':
-            Bam.setup()
-        elif args[1] == 'new':
-            Bam.new()
-        elif args[1] == 'list':
-            Bam.list()
-        elif args[1] == 'del':
-            Bam.delete()
-        elif args[1] == 'destroy':
-            Bam.destroy()
+        command = args[1]
+        if command in RESERVED_KEYWORDS:
+            getattr(Bam, command)()
         else:
-            Bam.run(args[1:])
+            Bam.run(command)
     else:
         Bam.run(args[1:])
 
