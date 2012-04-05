@@ -229,7 +229,12 @@ class Bam(object):
     @db_access
     def delete(cls):
         alias = Bam.__prompt_user_for('alias')
-        if alias not in Bam.command_store.get_aliases():
+        if alias in RESERVED_KEYWORDS:
+            Bam.__respond_with(
+                'Can\'t do that: "%s" is a built-in command.' % alias
+                )
+            return
+        elif alias not in Bam.command_store.get_aliases():
             Bam.__respond_with('Can\'t do that: Alias doesn\'t exist.')
             return
         print 'Srsly?'
