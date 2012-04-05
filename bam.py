@@ -2,6 +2,7 @@
 
 import os
 import re
+import readline
 import shelve
 import subprocess
 import sys
@@ -18,7 +19,11 @@ def find_home():
 def handle_input(args):
     """ Entry point """
     if len(args) == 1:
-        print 'yes?'
+        command = raw_input('yes?\n')
+        if command in RESERVED_KEYWORDS:
+            getattr(Bam, command)()
+        else:
+            Bam.run(command.split())
     elif len(args) == 2:
         if args[1] == 'help':
             Bam.help()
@@ -264,6 +269,33 @@ class Bam(object):
                 command.execute(input, alias.arg_positions)
                 return
         Bam.__respond_with('Unknown alias.')
+
+
+class AliasCompleter(object):
+    """
+    """
+
+    def __init__(self):
+        command_store = CommandStore()
+        command_store.access()
+        self._options = list(RESERVED_KEYWORDS) + command_store.get_aliases()
+        command_store.close()
+
+    def complete(self, text, state):
+        if state == 0:
+            if text:
+                self.matches = [
+                    s for s in self._options if s and s.startswith(text)
+                    ]
+            else:
+                self.matches = self._options[:]
+        try:
+            return self.matches[state]
+        except IndexError:
+            return None
+
+readline.set_completer(AliasCompleter().complete)
+readline.parse_and_bind('tab: complete')
 
 
 if __name__ == '__main__':
