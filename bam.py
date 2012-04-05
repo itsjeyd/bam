@@ -27,7 +27,7 @@ def handle_input(args):
         elif args[1] == 'new':
             Bam.new()
         elif args[1] == 'list':
-            Bam.show()
+            Bam.list()
         elif args[1] == 'del':
             Bam.delete()
         elif args[1] == 'destroy':
@@ -209,7 +209,7 @@ class Bam(object):
 
     @classmethod
     @db_access
-    def show(cls):
+    def list(cls):
         if Bam.command_store.is_empty():
             Bam.__respond_with('You don\'t have any commands yet.')
             return
