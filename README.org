@@ -61,3 +61,7 @@ ID  COMMAND                          ALIAS
 6   bam list                         show me my aliases
 7   grep -lr [0] ./*                 list files containing [0]
 #+END_EXAMPLE
+
+* Credits
+BAM was, among other things, inspired by Zach Holman's very cool [[https://github.com/holman/boom][boom]]
+app.
