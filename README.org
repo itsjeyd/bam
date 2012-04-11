@@ -49,7 +49,121 @@
 
 There you go. Now it's time to start teaching bam some commands.
 
+* Usage
+** Adding new aliases
+You can teach bam new commands by using the =new= command:
+#+begin_src sh
+bam new
+#+end_src
+bam will first prompt you for a command...
+#+begin_src sh
+Enter command: ls -la
+#+end_src
+... and then for an alias to associate with the command:
+#+begin_src sh
+Enter alias: list all the files
+#+end_src
+You can then run your new command using its alias like this:
+#+begin_src sh
+bam list all the files
+#+end_src
+
+*** Wildcards
+A lot of commands work on specific files or directories. It would be
+tedious to have to add different aliases for the same command just
+because its arguments are different. Consider for example a command
+like
+#+begin_src sh
+du -sh
+#+end_src
+which can be used to determine the size of specific files or folders.
+Instead of adding multiple different aliases for running this command
+on different targets, bam allows you to define a single alias using
+one or more /wildcards/. Wildcards are integers surrounded by square
+brackets:
+#+begin_src sh
+bam new
+Enter command: du -sh [0]
+...
+Enter alias: how big is [0]
+BAM! "du -sh [0]" can now be run via "how big is [0]".
+#+end_src
+You can now use this alias to ask bam about the size of any file or
+folder you like by simply inserting its name (or path) into the alias
+at the position of the wildcard:
+#+begin_src sh
+bam how big is /home/vincent/Documents
+Running "du -sh /home/vincent/Documents" ...
+
+2.2M	.
+#+end_src
+You can use as many wildcards as you like as long as their values
+(i.e., the integers between the square brackets) are unique and match
+up correctly between the alias and the underlying command.
+
+You can't do this, for example:
+#+begin_src sh
+bam new
+Enter command: ls -l [0] | grep [0]
+...
+Enter alias: list all [0] files in [0]
+#+end_src
+
+The following would would work ...
+#+begin_src sh
+bam new
+Enter command: ls -l [0] | grep [1]
+...
+Enter alias: list all [0] files in [1]
+#+end_src
+... but it wouldn't yield the desired results:
+#+begin_src sh
+bam list all py files in /home/jules/python-project
+Running "ls -l py | grep /home/jules/python-project" ...
+
+ls: cannot access py: No such file or directory
+#+end_src
+
+See the [[0][Examples]] section below for a working version of this alias, as
+well as some more examples for aliases using wildcards.
+
+** Listing aliases
+You can use the =list= command to make bam show you a list of all your
+commands and aliases:
+#+begin_src sh
+bam list
+#+end_src
+See the [[0][Examples]] section below for an example of what the output of the
+=list= command will look like.
+
+** Deleting aliases
+The =delete= command is used to selectively remove aliases from bam's
+database:
+#+begin_src sh
+bam del
+#+end_src
+You will be prompted for the alias you want to delete. If you enter an
+alias that doesn't exist in the database, bam will tell you. If the
+alias does exist, bam will ask for confirmation before proceeding.
+
+** Removing the database
+If for whatever reason you want to get rid of all of your aliases at
+once, you'll have to use the =destroy= command:
+#+begin_src sh
+bam destroy
+#+end_src
+
+** Getting help
+To get a listing of all basic commands bam responds to you can use the
+=help= command:
+#+begin_src sh
+bam help
+#+end_src
+
 * Examples
+  :PROPERTIES:
+  :CUSTOM_ID: 0
+  :END:
 #+BEGIN_EXAMPLE
 ID  COMMAND                          ALIAS
 0   git push origin master           push it real good
