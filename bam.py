@@ -153,6 +153,12 @@ class Bam(object):
         return wrapper
 
     @classmethod
+    def __ask_for_confirmation(cls, message):
+        print message
+        confirmation = Bam.__prompt_user_for('y/n')
+        return True if confirmation == 'y' else False
+
+    @classmethod
     def __prompt_user_for(cls, string):
         return raw_input('Enter %s: ' % string)
 
@@ -233,9 +239,8 @@ class Bam(object):
         elif alias not in Bam.command_store.get_aliases():
             Bam.__respond_with('Can\'t do that: Alias doesn\'t exist.')
             return
-        print 'Srsly?'
-        confirmation = Bam.__prompt_user_for('y/n')
-        if confirmation == 'y':
+        confirmation = Bam.__ask_for_confirmation('Srsly?')
+        if confirmation:
             Bam.command_store.rm_alias(alias)
             Bam.__respond_with('"%s" is an ex-alias.' % alias)
         else:
@@ -245,9 +250,10 @@ class Bam(object):
     def destroy(cls):
         db_path = os.path.join(find_home(), 'commands.db')
         if os.path.exists(db_path):
-            print 'Really delete *everything*? This is irreversible.'
-            confirmation = Bam.__prompt_user_for('y/n')
-            if confirmation == 'y':
+            confirmation = Bam.__ask_for_confirmation(
+                'Really delete *everything*? This is irreversible!'
+                )
+            if confirmation:
                 os.remove(db_path)
                 Bam.__respond_with('Nuked your database.')
             else:
