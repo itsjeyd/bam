@@ -21,7 +21,7 @@ cd /path/to/bams/new/home
 
 ... and bring them home
 #+BEGIN_EXAMPLE
-git clone ...
+git clone git://github.com/itsjeyd/bam.git
 #+END_EXAMPLE
 
 ** Bam wakes up
