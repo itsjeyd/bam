@@ -130,7 +130,7 @@ Running "ls -l py | grep /home/jules/python-project" ...
 ls: cannot access py: No such file or directory
 #+END_EXAMPLE
 
-See the [[0][Examples]] section below for a working version of this alias, as
+See the "Examples" section below for a working version of this alias, as
 well as some more examples for aliases using wildcards.
 
 ** Listing aliases
@@ -139,7 +139,7 @@ commands and aliases:
 #+BEGIN_EXAMPLE
 bam list
 #+END_EXAMPLE
-See the [[0][Examples]] section below for an example of what the output of the
+See the "Examples" section below for an example of what the output of the
 =list= command will look like.
 
 ** Deleting aliases
@@ -167,9 +167,6 @@ bam help
 #+END_EXAMPLE
 
 * Examples
-  :PROPERTIES:
-  :CUSTOM_ID: 0
-  :END:
 #+BEGIN_EXAMPLE
 ID  COMMAND                          ALIAS
 0   git push origin master           push it real good
