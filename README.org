@@ -80,7 +80,7 @@ tedious to have to add different aliases for the same command just
 because its arguments are different. Consider for example a command
 like
 #+BEGIN_EXAMPLE
-du -sh
+$ du -sh
 #+END_EXAMPLE
 which can be used to determine the size of specific files or folders.
 Instead of adding multiple different aliases for running this command
@@ -88,7 +88,7 @@ on different targets, bam allows you to define a single alias using
 one or more /wildcards/. Wildcards are integers surrounded by square
 brackets:
 #+BEGIN_EXAMPLE
-bam new
+$ bam new
 Enter command: du -sh [0]
 ...
 Enter alias: how big is [0]
@@ -98,7 +98,7 @@ You can now use this alias to ask bam about the size of any file or
 folder you like by simply inserting its name (or path) into the alias
 at the position of the wildcard:
 #+BEGIN_EXAMPLE
-bam how big is /home/vincent/Documents
+$ bam how big is /home/vincent/Documents
 Running "du -sh /home/vincent/Documents" ...
 
 2.2M	.
@@ -109,7 +109,7 @@ up correctly between the alias and the underlying command.
 
 You can't do this, for example:
 #+BEGIN_EXAMPLE
-bam new
+$ bam new
 Enter command: ls -l [0] | grep [0]
 ...
 Enter alias: list all [0] files in [0]
@@ -117,14 +117,14 @@ Enter alias: list all [0] files in [0]
 
 The following would would work ...
 #+BEGIN_EXAMPLE
-bam new
+$ bam new
 Enter command: ls -l [0] | grep [1]
 ...
 Enter alias: list all [0] files in [1]
 #+END_EXAMPLE
 ... but it wouldn't yield the desired results:
 #+BEGIN_EXAMPLE
-bam list all py files in /home/jules/python-project
+$ bam list all py files in /home/jules/python-project
 Running "ls -l py | grep /home/jules/python-project" ...
 
 ls: cannot access py: No such file or directory
@@ -137,7 +137,7 @@ well as some more examples for aliases using wildcards.
 You can use the =list= command to make bam show you a list of all your
 commands and aliases:
 #+BEGIN_EXAMPLE
-bam list
+$ bam list
 #+END_EXAMPLE
 See the "Examples" section below for an example of what the output of the
 =list= command will look like.
@@ -146,7 +146,7 @@ See the "Examples" section below for an example of what the output of the
 The =delete= command is used to selectively remove aliases from bam's
 database:
 #+BEGIN_EXAMPLE
-bam del
+$ bam del
 #+END_EXAMPLE
 You will be prompted for the alias you want to delete. If you enter an
 alias that doesn't exist in the database, bam will tell you. If the
@@ -156,14 +156,14 @@ alias does exist, bam will ask for confirmation before proceeding.
 If for whatever reason you want to get rid of all of your aliases at
 once, you'll have to use the =destroy= command:
 #+BEGIN_EXAMPLE
-bam destroy
+$ bam destroy
 #+END_EXAMPLE
 
 ** Getting help
 To get a listing of all basic commands bam responds to you can use the
 =help= command:
 #+BEGIN_EXAMPLE
-bam help
+$ bam help
 #+END_EXAMPLE
 
 * Examples
