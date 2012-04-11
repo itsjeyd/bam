@@ -7,10 +7,8 @@ can have it all :]
 
 ** What's in a name
 BAM is an anagram. An anagram of an acronym. An /acranagram/, if you
-will. [fn:1] It stands for "Multi-word Aliases for Bash".
-
-[fn:1] /anacronym/ has a nice ring to it as well, but is already
-[[http://en.wikipedia.org/wiki/Anacronym][taken]].
+will (/anacronym/ has a nice ring to it as well, but is already
+[[http://en.wikipedia.org/wiki/Anacronym][taken]]). It stands for "Multi-word Aliases for Bash".
 
 * Installation
 ... is easy!
