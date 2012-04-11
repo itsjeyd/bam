@@ -14,12 +14,13 @@ will (/anacronym/ has a nice ring to it as well, but is already
 ... is easy!
 
 ** A home for bam
-Choose the directory in which you want *bam* to live...
+Choose a directory for bam to live in (note that for best performance
+this should be a directory you have write access to) ...
 #+BEGIN_EXAMPLE
 $ cd /path/to/bams/new/home
 #+END_EXAMPLE
 
-... and bring them home
+... and bring them home:
 #+BEGIN_EXAMPLE
 $ git clone git://github.com/itsjeyd/bam.git
 #+END_EXAMPLE
