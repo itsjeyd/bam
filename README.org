@@ -58,7 +58,7 @@ There you go. Now it's time to start teaching bam some commands.
 
 * Usage
 ** Adding new aliases
-You can teach bam new commands by using the =new= command:
+You can teach bam new commands by using the (SURPRISE!) =new= command:
 #+BEGIN_EXAMPLE
 $ bam new
 #+END_EXAMPLE
