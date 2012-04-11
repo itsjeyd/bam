@@ -13,49 +13,45 @@ will (/anacronym/ has a nice ring to it as well, but is already
 * Installation
 ... is easy!
 
-1) A home for bam.
+** A home for bam
+Choose the directory in which you want *bam* to live...
+#+BEGIN_EXAMPLE
+cd /path/to/bams/new/home
+#+END_EXAMPLE
 
-   - Choose the directory in which you want *bam* to live...
-     #+BEGIN_EXAMPLE
-     cd /path/to/bams/new/home
-     #+END_EXAMPLE
+... and bring them home
+#+BEGIN_EXAMPLE
+git clone ...
+#+END_EXAMPLE
 
-   - ... and bring them home
-     #+BEGIN_EXAMPLE
-     git clone ...
-     #+END_EXAMPLE
+** Bam wakes up
+After a long trip through the interwebs, bam might be napping. You
+want to make sure that bam is awake and ready to start playing. Get
+closer and give bam a gentle pat on the head:
+#+BEGIN_EXAMPLE
+cd bam
+chmod +x bam.py
+#+END_EXAMPLE
 
-2) Bam wakes up.
+** A name for bam
+Throughout your day you probably need to be in a lot of different
+places. While you're working, you can't stay right by bam's side the
+whole time. You want bam to respond to your calls even if you're far
+away. That is what /names/ are for:
+#+BEGIN_EXAMPLE
+sudo ln -s ~+/bam.py /usr/bin/BAMS-NEW-NAME
+#+END_EXAMPLE
+You can name bam anything you like. For example, BAMS-NEW-NAME could
+be zed, mia, or even marcellus.
 
-   After a long trip through the interwebs, bam might be napping. You
-   want to make sure that bam is awake and ready to start playing. Get
-   closer and give bam a gentle pat on the head:
-   #+BEGIN_EXAMPLE
-   cd bam
-   chmod +x bam.py
-   #+END_EXAMPLE
-
-3) A name for bam.
-
-   Throughout your day you probably need to be in a lot of different
-   places. While you're working, you can't stay right by bam's side
-   the whole time. You want bam to respond to your calls even if
-   you're far away. That is what /names/ are for:
-   #+BEGIN_EXAMPLE
-   sudo ln -s ~+/bam.py /usr/bin/BAMS-NEW-NAME
-   #+END_EXAMPLE
-   You can name bam anything you like. For example, BAMS-NEW-NAME
-   could be zed, mia, or even marcellus.
-
-4) Bam gets ready.
-
-   Almost there. The last thing left to do is for bam to unpack and
-   set up the toy box:
-   #+BEGIN_EXAMPLE
-   bam setup
-   #+END_EXAMPLE
-   Make sure you call bam by the name you chose in step 3 when doing
-   this.
+** Bam gets ready
+Almost there. The last thing left to do is for bam to unpack and
+set up the toy box:
+#+BEGIN_EXAMPLE
+bam setup
+#+END_EXAMPLE
+Make sure you call bam by the name you chose in step 3 when doing
+this.
 
 There you go. Now it's time to start teaching bam some commands.
 
