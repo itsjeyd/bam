@@ -22,7 +22,7 @@ will. [fn:1] It stands for "Multi-word Aliases for Bash".
      cd /path/to/bams/new/home
      #+end_src
 
-   - ... and bring him home
+   - ... and bring them home
      #+begin_src sh
      git clone ...
      #+end_src
