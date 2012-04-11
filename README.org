@@ -1,5 +1,17 @@
 #+OPTIONS: f:nil
 #+TODO: TODO(t) IN-PROGRESS(i) DONE(d)
+* Introduction
+The command line is awesome. Aliases are awesome. Talking to your
+computer using natural language is also pretty awesome. With bam, you
+can have it all :]
+
+** What's in a name
+BAM is an anagram. An anagram of an acronym. An /acranagram/, if you
+will. [fn:1] It stands for "Multi-word Aliases for Bash".
+
+[fn:1] /anacronym/ has a nice ring to it as well, but is already
+[[http://en.wikipedia.org/wiki/Anacronym][taken]].
+
 * Installation
 ... is easy!
 
