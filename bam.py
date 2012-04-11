@@ -245,8 +245,13 @@ class Bam(object):
     def destroy(cls):
         db_path = os.path.join(find_home(), 'commands.db')
         if os.path.exists(db_path):
-            os.remove(db_path)
-            Bam.__respond_with('Nuked your database.')
+            print 'Really delete *everything*? This is irreversible.'
+            confirmation = Bam.__prompt_user_for('y/n')
+            if confirmation == 'y':
+                os.remove(db_path)
+                Bam.__respond_with('Nuked your database.')
+            else:
+                Bam.__respond_with('Aborting.')
         else:
             Bam.__respond_with('Can\'t do that. Database does not exist.')
 
