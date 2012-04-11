@@ -50,8 +50,8 @@ set up the toy box:
 #+BEGIN_EXAMPLE
 $ bam setup
 #+END_EXAMPLE
-Make sure you call bam by the name you chose in step 3 when doing
-this.
+Make sure you call bam by the name you chose in the previous step when
+doing this.
 
 There you go. Now it's time to start teaching bam some commands.
 
