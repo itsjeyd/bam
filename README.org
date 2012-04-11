@@ -41,8 +41,8 @@ away. That is what /names/ are for:
 #+BEGIN_EXAMPLE
 $ sudo ln -s ~+/bam.py /usr/bin/BAMS-NEW-NAME
 #+END_EXAMPLE
-You can name bam anything you like. For example, BAMS-NEW-NAME could
-be zed, mia, or even marcellus.
+You can name bam anything you like. For example, =BAMS-NEW-NAME= could
+be =zed=, =mia=, or even =marcellus=.
 
 ** Bam gets ready
 Almost there. The last thing left to do is for bam to unpack and
