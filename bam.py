@@ -29,7 +29,7 @@ def handle_input(args):
         if command in RESERVED_KEYWORDS:
             getattr(Bam, command)()
         else:
-            Bam.run(command)
+            Bam.run([command])
     else:
         Bam.run(args[1:])
 
