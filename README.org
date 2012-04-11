@@ -146,7 +146,7 @@ See the "Examples" section below for an example of what the output of the
 The =delete= command is used to selectively remove aliases from bam's
 database:
 #+BEGIN_EXAMPLE
-$ bam del
+$ bam delete
 #+END_EXAMPLE
 You will be prompted for the alias you want to delete. If you enter an
 alias that doesn't exist in the database, bam will tell you. If the
